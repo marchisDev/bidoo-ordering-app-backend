@@ -19,7 +19,7 @@ const menuItemSchema = new mongoose.Schema({
 export type MenuItemType = InferSchemaType<typeof menuItemSchema>
 
 
-const restaurantChema = new mongoose.Schema({
+const restaurantSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
@@ -61,5 +61,5 @@ const restaurantChema = new mongoose.Schema({
     },
 })
 
-const Restaurant = mongoose.model('Restaurant', restaurantChema)
+const Restaurant = mongoose.model('Restaurant', restaurantSchema)
 export default Restaurant;
