@@ -2,7 +2,6 @@ import Stripe from "stripe";
 import { Request, Response } from "express";
 import Restaurant, { MenuItemType } from "../models/restaurant";
 import Order from "../models/order";
-// import { check } from "express-validator";
 
 const STRIPE = new Stripe(process.env.STRIPE_API_KEY as string);
 const FRONTEND_URL = process.env.FRONTEND_URL as string;
@@ -22,7 +21,6 @@ const getMyOrders = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Something went wrong" });
   }
 }
-
 
 type CheckoutSessionRequest = {
   cartItems: {
@@ -54,6 +52,10 @@ const stripeWebhookHandler = async (req: Request, res: Response) => {
     return res.status(400).send(`Webhook error: ${error.message}`);
   }
 
+  // Xác nhận việc nhận sự kiện ngay lập tức
+  res.status(200).send();
+
+  // Thực hiện các tác vụ dài hạn sau khi xác nhận
   if (event.type === "checkout.session.completed") {
     const order = await Order.findById(event.data.object.metadata?.orderId);
 
