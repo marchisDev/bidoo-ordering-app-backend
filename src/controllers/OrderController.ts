@@ -52,8 +52,8 @@ const stripeWebhookHandler = async (req: Request, res: Response) => {
     return res.status(400).send(`Webhook error: ${error.message}`);
   }
 
-  // Xác nhận việc nhận sự kiện ngay lập tức
-  res.status(200).send();
+  // // Xác nhận việc nhận sự kiện ngay lập tức
+  // res.status(200).send();
 
   // Thực hiện các tác vụ dài hạn sau khi xác nhận
   if (event.type === "checkout.session.completed") {

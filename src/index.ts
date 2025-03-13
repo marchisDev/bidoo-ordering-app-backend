@@ -22,7 +22,7 @@ cloudinary.config({
 
 
 const app = express();
-app.use("/api/order/checkout/webhook", express.raw({ type: "application/json" }), orderRoute);
+app.use("/api/order/checkout/webhook", express.raw({ type: "*/*" }));
 app.use(express.json())
 app.use(cors())
 // app.use(
