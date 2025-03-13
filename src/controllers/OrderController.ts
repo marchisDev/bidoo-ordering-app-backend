@@ -14,7 +14,7 @@ const getMyOrders = async (req: Request, res: Response) => {
       .populate('user')
       .sort({ createAt: -1 });
 
-    console.log(orders);
+    // console.log(orders);
     res.json(orders);
   } catch (error) {
     console.log(error);
@@ -74,6 +74,8 @@ const stripeWebhookHandler = async (req: Request, res: Response) => {
   // console.log('==============================================')
   // console.log('event:', req.body)
   // res.send()
+  // console.log("Webhook received:", event.type);
+  // console.log("Metadata:", event); 
 }
 
 
@@ -180,7 +182,7 @@ const createSession = async (
       orderId,
       restaurantId,
     },
-    success_url: `${FRONTEND_URL}/order-status`,
+    success_url: `${FRONTEND_URL}/order-status?success=true`,
     cancel_url: `${FRONTEND_URL}/detail/${restaurantId}?cancelled=true`,
   });
 
