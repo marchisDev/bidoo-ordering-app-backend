@@ -37,7 +37,7 @@ type CheckoutSessionRequest = {
   restaurantId: string;
 }
 
-const stripeWebhookHandler = async (req: Request, res: Response) => {
+export const stripeWebhookHandler = async (req: Request, res: Response) => {
   let event;
 
   try {
@@ -52,15 +52,16 @@ const stripeWebhookHandler = async (req: Request, res: Response) => {
     return res.status(400).send(`Webhook error: ${error.message}`);
   }
 
-  // // Xác nhận việc nhận sự kiện ngay lập tức
-  // res.status(200).send();
+  // Xác nhận việc nhận sự kiện ngay lập tức
+  res.status(200).send();
 
   // Thực hiện các tác vụ dài hạn sau khi xác nhận
   if (event.type === "checkout.session.completed") {
     const order = await Order.findById(event.data.object.metadata?.orderId);
 
     if (!order) {
-      return res.status(404).json({ message: "Order not found" });
+      console.log("Order not found");
+      return;
     }
 
     order.totalAmount = event.data.object.amount_total;
@@ -68,15 +69,7 @@ const stripeWebhookHandler = async (req: Request, res: Response) => {
 
     await order.save();
   }
-
-  // res.status(200).send();
-  // console.log('Webhook received')
-  // console.log('==============================================')
-  // console.log('event:', req.body)
-  // res.send()
-  // console.log("Webhook received:", event.type);
-  // console.log("Metadata:", event); 
-}
+};
 
 
 const createCheckoutSession = async (req: Request, res: Response) => {
